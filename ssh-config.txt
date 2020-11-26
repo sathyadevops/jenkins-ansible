@@ -1,0 +1,88 @@
+     SSH(Secure Shell) Configuration
+                             -------------------------------------------------
+    # whoami
+    # sudo  su  -           ---> to switch root user
+
+ Step-1:  to change root password : 
+------------------------------------------------
+               node# passwd  root
+       Enter new passwd :  root
+
+ Step-2:  to configure ssh: 
+------------------------------------
+               node# vi /etc/ssh/sshd_config
+        [press 'i' for insert mode]
+	PermitRootLogin   yes
+	PasswordAuthentication   yes
+        [press 'Esc']
+        [:wq  ---> write and quit]
+
+
+ Step-3: to restart ssh service:
+ -----------------------------------------
+              node# service ssh restart         (for Ubuntu nodes)
+                                  [OR]
+              node# systemctl restart sshd   (for Redhat nodes)
+
+
+
+ Step-4: to Connect with Nodes:
+----------------------------------------------
+              node# hostname  -i         (to get an  Private IP-Address)
+             [OR]  # ifconfig      
+             [OR]  # ip  a         
+
+              node# curl ifconfig.me     (to get an  Public IP-Address)
+               [OR]   curl ifconfig.in
+
+              node# hostname  -f         (to get a Host Name / FQDN)
+  
+              mstr#  ssh  <node-IP>
+
+
+
+                                Password less Authentication  (SSH-Keys)
+                                -------------------------------------------------------------
+ Step-1:  to generate a Key-pair
+------------------------------------------
+             mstr#  ls  -a          (to list hidden files)
+             mstr#  cd .ssh   
+             mstr#  ssh-keygen
+             mstr#  ls
+             id_rsa          (private key)
+             id_rsa.pub   (public key)
+
+ Step-2:  to send public key to nodes
+----------------------------------------------------
+          mstr#  ssh-copy-id   <node IP Address>
+
+ Step-3: to Connect with Nodes:
+----------------------------------------------
+              mstr#  ssh  <node IP>
+
+
+
+                                     sshpass
+                                 -----------------
+Ex:
+      # apt-get install sshpass
+
+      # sshpass -p passwd ssh 172.31.28.166
+
+      # sshpass -f  pwd_file ssh 172.31.28.166
+
+
+                                   SCP (Secure Copy)
+                                 ------------------------------
+ Syntax:
+     #  scp -i  [private key]  <file name> [user@]<ip addr>:<path>
+ 
+ Ex:
+    #  scp -i ~/.ssh/id_rsa demo.txt   root@10.142.0.14:/opt
+    #  scp demo.txt 10.142.0.15:/tmp
+    #  sshpass -p passwd scp demo.java 10.142.0.14:/tmp
+
+
+
+
+

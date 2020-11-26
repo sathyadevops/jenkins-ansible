@@ -1,0 +1,74 @@
+                                Jenkins-Ansible Integration
+                          ---------------------------------------
+  Step-1:  Install "Publish over ssh" plugin in Jenkins
+  -------------------------------------------------------------------------- 
+                 Jenkins -->  Manage Jenkins --> manage Plugins --> publish over ssh
+
+  Step-2:  Create Two Hosts for Nodes
+  ------------------------------------------------
+                 do configure Secure Shell (ssh)
+
+  Step-3:  Create an Ansible master
+  ------------------------------------------------
+    2  apt-get update
+    4  apt-get install software-properties-common -y
+    6  apt-add-repository ppa:ansible/ansible
+    8  apt-get update
+   10  apt-get install ansible -y
+
+ 
+   root@ansible:~# ansible --version
+ansible 2.9.15
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = [u'/root/.ansible/plugins/modules', 
+
+u'/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python2.7/dist-packages/ansible
+  executable location = /usr/bin/ansible
+  python version = 2.7.12 (default, Oct  5 2020, 13:56:01) [GCC 5.4.0 20160609]
+root@ansible:~#
+
+root@ansible:~# cd /etc/ansible/
+root@ansible:/etc/ansible# ls
+ansible.cfg  hosts  roles
+root@ansible:/etc/ansible# cp hosts ~/
+root@ansible:/etc/ansible# cp ansible.cfg ~/
+
+
+root@ansible:~# cat hosts
+10.128.0.27
+10.128.0.28
+
+root@ansible:~# vi anisble.cfg
+
+deprecation_warnings=False     ---> add this new line
+inventory      = /root/hosts          ---> update an Inventory path
+#plugin_filters_cfg = /etc/ansible/plugin_filters.yml   --> comment these lines
+#ask_sudo_pass = True
+#ask_pass      = True
+
+
+   # ansible all -m ping
+
+
+
+  Step-4:  Jenkins - Ansible node configure
+  ----------------------------------------------------------
+                   Manage Jenkins -->  Configure System -->  Publish Over SSH --> 
+
+                        path to key :  /root/.ssh/id_rsa
+                         Key            :  <add key>
+
+                        SSH Servers --> add --> 
+
+                         Name :  Server Name
+                         Host Name :  <Ansible Public IP>
+                         username :    root  
+
+                         select --> test configuration
+
+
+ 
+
+
+
