@@ -3,7 +3,7 @@
                                                    Jenkins-Ansible Integration
                                                 ----------------------------------------
 
-Step-1:  Create Three Servers :
+Step-1:  Create Two Servers :
 --------------------------------------------
                       1 - Jenkins and Ansible Master
                       1 - Ansible Node
